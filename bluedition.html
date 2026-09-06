@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07070b">
+  <title>Bluedition — EndExpanser</title>
+  <link rel="preconnect" href="https://api.modrinth.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="project.css">
+</head>
+<body class="theme-blue">
+<div class="project-shell">
+  <div class="bg-layer"><canvas id="fx"></canvas><div class="glow-orb a"></div><div class="glow-orb b"></div></div>
+
+  <div class="loading-screen" id="loading">
+    <div class="loader"><div class="loader-ring"></div><p id="loadingText">SYNCING WITH MODRINTH</p></div>
+  </div>
+
+  <header class="sitebar">
+    <a class="home-link" href="index.html">END<span>EXPANSER</span></a>
+    <div class="site-actions">
+      <a class="mini-btn hide-mobile" href="index.html#projects">all projects</a>
+      <a class="mini-btn" data-modrinth href="https://modrinth.com/user/EndExpanser" target="_blank" rel="noreferrer">modrinth ↗</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">UI / BLUE / RESOURCE PACK</div>
+          <h1 id="projectTitle">Bluedition</h1>
+          <p class="hero-summary" id="projectSummary">Loading project details from Modrinth…</p>
+        </div>
+
+        <div class="hero-side reveal">
+          <img class="project-icon" id="projectIcon" alt="">
+          <div class="stats">
+            <div class="stat"><strong id="downloads">—</strong><span>downloads</span></div>
+            <div class="stat"><strong id="followers">—</strong><span>followers</span></div>
+            <div class="stat"><strong id="projectType">—</strong><span>type</span></div>
+            <div class="stat"><strong id="updated">—</strong><span>updated</span></div>
+          </div>
+          <a class="download" data-modrinth href="https://modrinth.com/user/EndExpanser" target="_blank" rel="noreferrer">
+            <span>DOWNLOAD ON MODRINTH</span><b>↗</b>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="section-label">01 / INTERFACE</div>
+      <h2 class="content-title reveal">BLUE,<br>REBUILT</h2>
+      <div class="gallery" id="gallery"><div class="empty-gallery">Loading gallery…</div></div>
+    </section>
+
+    <section class="content-section">
+      <div class="description-wrap">
+        <aside class="sticky-note reveal">
+          <div class="section-label">ABOUT THE PROJECT</div>
+          <p>the project data is synced from Modrinth while the site gets a sharper grid-based blue interface of its own</p>
+        </aside>
+        <article class="prose reveal" id="description">Loading description from Modrinth…</article>
+      </div>
+    </section>
+
+    <div class="meta-strip reveal" id="tags"></div>
+
+    <section class="bottom-cta">
+      <h2 class="reveal">RECOLOR<br>THE<br>INTERFACE</h2>
+      <a class="download reveal" data-modrinth href="https://modrinth.com/user/EndExpanser" target="_blank" rel="noreferrer">
+        <span>GET IT ON MODRINTH</span><b>↗</b>
+      </a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>EndExpanser</span><span>Live data from Modrinth</span>
+  </footer>
+
+  <div class="lightbox" id="lightbox">
+    <button id="lightboxClose" aria-label="Close">×</button>
+    <img id="lightboxImg" alt="Gallery preview">
+  </div>
+</div>
+<script>window.PROJECT_CONFIG={"title": "Bluedition", "slug": "bluedition", "theme": "blue"}</script>
+<script src="project.js"></script>
+</body>
+</html>
