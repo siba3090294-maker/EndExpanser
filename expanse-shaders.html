@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07070b">
+  <title>Expanse Shaders — EndExpanser</title>
+  <link rel="preconnect" href="https://api.modrinth.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="project.css">
+</head>
+<body class="theme-expanse">
+<div class="project-shell">
+  <div class="bg-layer"><canvas id="fx"></canvas><div class="glow-orb a"></div><div class="glow-orb b"></div></div>
+
+  <div class="loading-screen" id="loading">
+    <div class="loader"><div class="loader-ring"></div><p id="loadingText">SYNCING WITH MODRINTH</p></div>
+  </div>
+
+  <header class="sitebar">
+    <a class="home-link" href="index.html">END<span>EXPANSER</span></a>
+    <div class="site-actions">
+      <div class="language-switcher" data-lang-switcher>
+        <button class="lang-current" type="button" aria-haspopup="true" aria-expanded="false">EN <span>⌄</span></button>
+        <div class="lang-menu" role="menu"><button type="button" data-lang="en">English</button><button type="button" data-lang="ru">Русский</button><button type="button" data-lang="uk">Українська</button></div>
+      </div>
+      <a class="mini-btn hide-mobile" href="index.html#projects" data-i18n="common.allProjects">all projects</a>
+      <a class="mini-btn" data-modrinth href="https://modrinth.com/user/EndExpanser" target="_blank" rel="noreferrer"><span data-i18n="common.modrinth">modrinth</span> ↗</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="reveal">
+          <div class="eyebrow" data-i18n="theme.eyebrow">SHADERS / VANILLA / AIR</div>
+          <h1 id="projectTitle">Expanse Shaders</h1>
+          <p class="hero-summary" id="projectSummary"><span data-i18n="common.loadingDetails">Loading project details from Modrinth…</span></p>
+        </div>
+
+        <div class="hero-side reveal">
+          <img class="project-icon" id="projectIcon" alt="">
+          <div class="stats">
+            <div class="stat"><strong id="downloads">—</strong><span data-i18n="stats.downloads">downloads</span></div>
+            <div class="stat"><strong id="followers">—</strong><span data-i18n="stats.followers">followers</span></div>
+            <div class="stat"><strong id="projectType">—</strong><span data-i18n="stats.type">type</span></div>
+            <div class="stat"><strong id="updated">—</strong><span data-i18n="stats.updated">updated</span></div>
+          </div>
+          <a class="download" data-modrinth href="https://modrinth.com/user/EndExpanser" target="_blank" rel="noreferrer">
+            <span data-i18n="common.download">DOWNLOAD ON MODRINTH</span><b>↗</b>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="section-label" data-i18n="theme.section">01 / ATMOSPHERES</div>
+      <h2 class="content-title reveal" data-i18n="theme.title">EVERY<br>DIMENSION<br>BREATHES</h2>
+      <div class="gallery" id="gallery"><div class="empty-gallery"><span data-i18n="common.loadingGallery">Loading gallery…</span></div></div>
+    </section>
+
+    <section class="content-section">
+      <div class="description-wrap">
+        <aside class="sticky-note reveal">
+          <div class="section-label"><span data-i18n="common.aboutProject">ABOUT THE PROJECT</span></div>
+          <p>this page mirrors the current Modrinth gallery and description and wraps them in the teal-violet atmosphere of Expanse Shaders</p>
+        </aside>
+        <article class="prose reveal" id="description"><span data-i18n="common.loadingDescription">Loading description from Modrinth…</span></article>
+      </div>
+    </section>
+
+    <div class="meta-strip reveal" id="tags"></div>
+
+    <section class="bottom-cta">
+      <h2 class="reveal" data-i18n="theme.bottom">CHANGE<br>THE AIR<br>AROUND YOU</h2>
+      <a class="download reveal" data-modrinth href="https://modrinth.com/user/EndExpanser" target="_blank" rel="noreferrer">
+        <span data-i18n="common.get">GET IT ON MODRINTH</span><b>↗</b>
+      </a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>EndExpanser</span><span><span data-i18n="common.liveData">Live data from Modrinth</span></span>
+  </footer>
+
+  <div class="lightbox" id="lightbox">
+    <button id="lightboxClose" aria-label="Close">×</button>
+    <img id="lightboxImg" alt="Gallery preview">
+  </div>
+</div>
+<script>window.PROJECT_CONFIG={"title": "Expanse Shaders", "slug": "expanse-shaders", "theme": "expanse"}</script>
+<script src="project.js"></script>
+</body>
+</html>
