@@ -1,7 +1,8 @@
 const API = "https://api.modrinth.com/v2"
 const USER = "EndExpanser"
 
-document.getElementById("year").textContent = new Date().getFullYear()
+document.getElementById("year").textContent =
+  new Date().getFullYear()
 
 const fmt = n =>
   new Intl.NumberFormat("en", {
@@ -14,7 +15,9 @@ async function getProjects() {
   const grid = document.getElementById("projectGrid")
 
   try {
-    const res = await fetch(`${API}/user/${USER}/projects`)
+    const res = await fetch(
+      `${API}/user/${USER}/projects`
+    )
 
     if (!res.ok) {
       throw new Error(`Modrinth API: ${res.status}`)
@@ -24,26 +27,50 @@ async function getProjects() {
 
     projects = projects
       .filter(p =>
-        ["approved", "archived", "unlisted"].includes(p.status)
+        ["approved", "archived", "unlisted"].includes(
+          p.status
+        )
       )
-      .sort((a, b) => (b.downloads || 0) - (a.downloads || 0))
+      .sort(
+        (a, b) =>
+          (b.downloads || 0) -
+          (a.downloads || 0)
+      )
 
     const downloads = projects.reduce(
-      (sum, p) => sum + (p.downloads || 0),
+      (sum, p) =>
+        sum + (p.downloads || 0),
       0
     )
 
     const followers = projects.reduce(
-      (sum, p) => sum + (p.followers || 0),
+      (sum, p) =>
+        sum + (p.followers || 0),
       0
     )
 
-    animateNumber("projectCount", projects.length, false)
-    animateNumber("downloadCount", downloads, true)
-    animateNumber("followerCount", followers, true)
+    animateNumber(
+      "projectCount",
+      projects.length,
+      false
+    )
+
+    animateNumber(
+      "downloadCount",
+      downloads,
+      true
+    )
+
+    animateNumber(
+      "followerCount",
+      followers,
+      true
+    )
 
     if (!projects.length) {
-      throw new Error("No public projects returned")
+      throw new Error(
+        "No public projects returned"
+      )
     }
 
     grid.innerHTML = projects
@@ -54,7 +81,8 @@ async function getProjects() {
           ""
 
         const type =
-          (p.project_type || "project").replace("_", " ")
+          (p.project_type || "project")
+            .replace("_", " ")
 
         const loaders =
           Array.isArray(p.loaders)
@@ -70,28 +98,39 @@ async function getProjects() {
             ? "modpack"
             : "mod"
 
+        /*
+          ВАЖНО:
+          страницы находятся в корне
+          репозитория EndExpanser
+        */
+
         const localPages = {
-          "end expanse": "projects/end-expanse.html",
-          "aeonrealism": "projects/aeonrealism.html",
-          "expanse shaders": "projects/expanse-shaders.html",
-          "bluedition": "projects/bluedition.html"
+          "end expanse":
+            "/EndExpanser/end-expanse.html",
+
+          "aeonrealism":
+            "/EndExpanser/aeonrealism.html",
+
+          "expanse shaders":
+            "/EndExpanser/expanse-shaders.html",
+
+          "bluedition":
+            "/EndExpanser/bluedition.html"
         }
 
         const href =
-          localPages[(p.title || "").toLowerCase()] ||
+          localPages[
+            (p.title || "").toLowerCase()
+          ] ||
           `https://modrinth.com/${hrefType}/${p.slug || p.id}`
 
-        const target =
-          href.startsWith("projects/")
-            ? "_self"
-            : "_blank"
+        const target = "_self"
 
         return `
           <a
             class="project-card tilt reveal"
             href="${href}"
             target="${target}"
-            rel="noreferrer"
           >
             <div
               class="project-bg"
@@ -115,7 +154,9 @@ async function getProjects() {
             ></div>
 
             <div class="project-content">
+
               <div class="project-meta">
+
                 <span class="pill">
                   ${escapeHtml(type)}
                 </span>
@@ -123,9 +164,12 @@ async function getProjects() {
                 ${loaders
                   .map(
                     l =>
-                      `<span class="pill">${escapeHtml(l)}</span>`
+                      `<span class="pill">
+                        ${escapeHtml(l)}
+                      </span>`
                   )
                   .join("")}
+
               </div>
 
               <h3 class="project-title">
@@ -140,7 +184,9 @@ async function getProjects() {
               </p>
 
               <div class="project-bottom">
+
                 <div class="stats-mini">
+
                   <span>
                     ↓ ${fmt(p.downloads)} downloads
                   </span>
@@ -148,17 +194,23 @@ async function getProjects() {
                   <span>
                     ♡ ${fmt(p.followers)} followers
                   </span>
+
                 </div>
 
-                <span class="arrow">↗</span>
+                <span class="arrow">
+                  ↗
+                </span>
+
               </div>
+
             </div>
           </a>
         `
       })
       .join("")
 
-    status.textContent = "live data from modrinth"
+    status.textContent =
+      "live data from modrinth"
 
     initReveal()
     initTilt()
@@ -166,13 +218,23 @@ async function getProjects() {
   } catch (err) {
     console.error(err)
 
-    status.textContent = "modrinth data unavailable"
+    status.textContent =
+      "modrinth data unavailable"
 
-    document.getElementById("projectCount").textContent = "4"
-    document.getElementById("downloadCount").textContent = "—"
-    document.getElementById("followerCount").textContent = "—"
+    document.getElementById(
+      "projectCount"
+    ).textContent = "4"
 
-    grid.innerHTML = fallbackCards()
+    document.getElementById(
+      "downloadCount"
+    ).textContent = "—"
+
+    document.getElementById(
+      "followerCount"
+    ).textContent = "—"
+
+    grid.innerHTML =
+      fallbackCards()
 
     initReveal()
     initTilt()
@@ -185,25 +247,28 @@ function fallbackCards() {
       "End Expanse",
       "mod",
       "Expand the End in a quiet, vanilla-inspired style",
-      "projects/end-expanse.html"
+      "/EndExpanser/end-expanse.html"
     ],
+
     [
       "AeonRealism",
       "shader",
       "A cinematic realism-focused shader project",
-      "projects/aeonrealism.html"
+      "/EndExpanser/aeonrealism.html"
     ],
+
     [
       "Expanse Shaders",
       "shader",
       "Atmospheric visuals built for Minecraft",
-      "projects/expanse-shaders.html"
+      "/EndExpanser/expanse-shaders.html"
     ],
+
     [
       "Bluedition",
       "resource pack",
       "A blue-styled visual resource pack",
-      "projects/bluedition.html"
+      "/EndExpanser/bluedition.html"
     ]
   ]
 
@@ -214,6 +279,7 @@ function fallbackCards() {
           class="project-card tilt reveal"
           href="${href}"
         >
+
           <div
             class="project-bg"
             style="
@@ -232,6 +298,7 @@ function fallbackCards() {
           ></div>
 
           <div class="project-content">
+
             <div class="project-meta">
               <span class="pill">
                 ${type}
@@ -247,6 +314,7 @@ function fallbackCards() {
             </p>
 
             <div class="project-bottom">
+
               <div class="stats-mini">
                 <span>
                   open project
@@ -256,8 +324,11 @@ function fallbackCards() {
               <span class="arrow">
                 ↗
               </span>
+
             </div>
+
           </div>
+
         </a>
       `
     )
@@ -278,23 +349,38 @@ function escapeHtml(str = "") {
   )
 }
 
-function animateNumber(id, target, compact) {
-  const el = document.getElementById(id)
+function animateNumber(
+  id,
+  target,
+  compact
+) {
+  const el =
+    document.getElementById(id)
 
-  const start = performance.now()
+  const start =
+    performance.now()
+
   const duration = 900
 
   const tick = now => {
-    const t = Math.min(
-      1,
-      (now - start) / duration
-    )
+    const t =
+      Math.min(
+        1,
+        (now - start) /
+          duration
+      )
 
     const eased =
-      1 - Math.pow(1 - t, 3)
+      1 -
+      Math.pow(
+        1 - t,
+        3
+      )
 
     const value =
-      Math.round(target * eased)
+      Math.round(
+        target * eased
+      )
 
     el.textContent =
       compact
@@ -302,7 +388,9 @@ function animateNumber(id, target, compact) {
         : value
 
     if (t < 1) {
-      requestAnimationFrame(tick)
+      requestAnimationFrame(
+        tick
+      )
     }
   }
 
@@ -314,9 +402,17 @@ function initReveal() {
     new IntersectionObserver(
       entries => {
         entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add("visible")
-            io.unobserve(e.target)
+          if (
+            e.isIntersecting
+          ) {
+            e.target
+              .classList.add(
+                "visible"
+              )
+
+            io.unobserve(
+              e.target
+            )
           }
         })
       },
@@ -329,8 +425,9 @@ function initReveal() {
     .querySelectorAll(
       ".reveal:not(.visible)"
     )
-    .forEach(el =>
-      io.observe(el)
+    .forEach(
+      el =>
+        io.observe(el)
     )
 }
 
@@ -346,37 +443,46 @@ function initTilt() {
   }
 
   document
-    .querySelectorAll(".tilt")
+    .querySelectorAll(
+      ".tilt"
+    )
     .forEach(card => {
 
-      card.onmousemove = e => {
-        const r =
-          card.getBoundingClientRect()
+      card.onmousemove =
+        e => {
+          const r =
+            card.getBoundingClientRect()
 
-        const x =
-          (e.clientX - r.left) /
-            r.width -
-          0.5
+          const x =
+            (e.clientX -
+              r.left) /
+              r.width -
+            0.5
 
-        const y =
-          (e.clientY - r.top) /
-            r.height -
-          0.5
+          const y =
+            (e.clientY -
+              r.top) /
+              r.height -
+            0.5
 
-        card.style.transform =
-          `perspective(900px)
-           rotateX(${y * -3.5}deg)
-           rotateY(${x * 4.5}deg)`
-      }
+          card.style.transform =
+            `perspective(900px)
+             rotateX(${y * -3.5}deg)
+             rotateY(${x * 4.5}deg)`
+        }
 
-      card.onmouseleave = () => {
-        card.style.transform = ""
-      }
+      card.onmouseleave =
+        () => {
+          card.style.transform =
+            ""
+        }
     })
 }
 
 const topbar =
-  document.querySelector(".topbar")
+  document.querySelector(
+    ".topbar"
+  )
 
 addEventListener(
   "scroll",
@@ -410,13 +516,14 @@ addEventListener(
 )
 
 document
-  .querySelectorAll(".magnetic")
+  .querySelectorAll(
+    ".magnetic"
+  )
   .forEach(el => {
 
     el.addEventListener(
       "pointermove",
       e => {
-
         if (
           matchMedia(
             "(pointer: coarse)"
@@ -451,13 +558,16 @@ document
     el.addEventListener(
       "pointerleave",
       () => {
-        el.style.transform = ""
+        el.style.transform =
+          ""
       }
     )
   })
 
 const canvas =
-  document.getElementById("stars")
+  document.getElementById(
+    "stars"
+  )
 
 const ctx =
   canvas.getContext("2d")
@@ -573,7 +683,9 @@ function draw() {
     ctx.fill()
   }
 
-  requestAnimationFrame(draw)
+  requestAnimationFrame(
+    draw
+  )
 }
 
 addEventListener(
