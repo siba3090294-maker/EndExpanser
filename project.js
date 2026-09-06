@@ -994,4 +994,375 @@ async function loadProject() {
         )
 
       if (detail.ok) {
+        cfg.title        full = await detail.json()
+      } else {
+        console.warn(
+          "Full project request returned",
+          detail.status
+        )
+      }
+    } catch (e) {
+      console.warn(
+        "Couldn't load full project details, using summary data",
+        e
+      )
+    }
+
+    window.__projectData = full
+
+    await renderProject(full)
+
+    $("#loading")
+      .classList.add("hide")
+
+  } catch (err) {
+    console.error(err)
+
+    $("#loadingText").textContent =
+      pt("common.loadFail")
+
+    setTimeout(
+      () =>
+        $("#loading")
+          .classList.add("hide"),
+      1200
+    )
+
+    $("#projectTitle").textContent =
+      cfg.title || "Project"
+
+    $("#projectSummary").textContent =
+      pt("common.unavailable")
+  }
+}
+
+/* =========================
+   GALLERY LIGHTBOX
+========================= */
+
+function bindGallery() {
+  document
+    .querySelectorAll(
+      ".gallery-item"
+    )
+    .forEach(el => {
+      el.addEventListener(
+        "click",
+        () => {
+          const img =
+            $("#lightboxImg")
+
+          const lightbox =
+            $("#lightbox")
+
+          if (!img || !lightbox)
+            return
+
+          img.src =
+            el.dataset.img
+
+          lightbox.classList.add(
+            "open"
+          )
+        }
+      )
+    })
+}
+
+const lightboxClose =
+  $("#lightboxClose")
+
+const lightbox =
+  $("#lightbox")
+
+if (lightboxClose) {
+  lightboxClose.addEventListener(
+    "click",
+    () => {
+      lightbox?.classList.remove(
+        "open"
+      )
+    }
+  )
+}
+
+if (lightbox) {
+  lightbox.addEventListener(
+    "click",
+    e => {
+      if (e.target.id === "lightbox") {
+        lightbox.classList.remove(
+          "open"
+        )
+      }
+    }
+  )
+}
+
+addEventListener(
+  "keydown",
+  e => {
+    if (e.key === "Escape") {
+      lightbox?.classList.remove(
+        "open"
+      )
+    }
+  }
+)
+
+/* =========================
+   REVEAL
+========================= */
+
+function initReveal() {
+  const io =
+    new IntersectionObserver(
+      entries =>
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add(
+              "visible"
+            )
+
+            io.unobserve(
+              e.target
+            )
+          }
+        }),
+      {
+        threshold: 0.1
+      }
+    )
+
+  document
+    .querySelectorAll(
+      ".reveal:not(.visible)"
+    )
+    .forEach(
+      el => io.observe(el)
+    )
+}
+
+initReveal()
+
+/* =========================
+   TOP BAR
+========================= */
+
+const bar =
+  $(".sitebar")
+
+if (bar) {
+  addEventListener(
+    "scroll",
+    () =>
+      bar.classList.toggle(
+        "scrolled",
+        scrollY > 25
+      ),
+    {
+      passive: true
+    }
+  )
+}
+
+/* =========================
+   BACKGROUND FX
+========================= */
+
+function startFX() {
+  const c =
+    $("#fx")
+
+  if (!c)
+    return
+
+  const x =
+    c.getContext("2d")
+
+  let pts = []
+
+  function resize() {
+    const d =
+      Math.min(
+        devicePixelRatio,
+        2
+      )
+
+    c.width =
+      innerWidth * d
+
+    c.height =
+      innerHeight * d
+
+    c.style.width =
+      innerWidth + "px"
+
+    c.style.height =
+      innerHeight + "px"
+
+    x.setTransform(
+      d,
+      0,
+      0,
+      d,
+      0,
+      0
+    )
+
+    const count =
+      Math.min(
+        140,
+        Math.floor(
+          innerWidth *
+            innerHeight /
+            10000
+        )
+      )
+
+    pts =
+      Array.from(
+        {
+          length: count
+        },
+        () => ({
+          x:
+            Math.random() *
+            innerWidth,
+
+          y:
+            Math.random() *
+            innerHeight,
+
+          r:
+            Math.random() *
+              1.2 +
+            0.2,
+
+          v:
+            Math.random() *
+              0.18 +
+            0.03,
+
+          a:
+            Math.random() *
+              0.5 +
+            0.12,
+
+          p:
+            Math.random() *
+            6.28
+        })
+      )
+  }
+
+  function draw() {
+    x.clearRect(
+      0,
+      0,
+      innerWidth,
+      innerHeight
+    )
+
+    const theme =
+      cfg.theme ||
+      "end"
+
+    for (const p of pts) {
+      if (theme === "end") {
+        p.y +=
+          p.v * 0.35
+
+        p.x +=
+          Math.sin(
+            p.p += 0.004
+          ) * 0.08
+
+        x.fillStyle =
+          `rgba(200,145,255,${p.a})`
+
+      } else if (
+        theme === "aeon"
+      ) {
+        p.y +=
+          p.v * 0.18
+
+        p.x +=
+          p.v * 0.45
+
+        x.fillStyle =
+          `rgba(244,207,151,${p.a * 0.7})`
+
+      } else if (
+        theme === "expanse"
+      ) {
+        p.y -=
+          p.v * 0.24
+
+        p.x +=
+          Math.sin(
+            p.p += 0.008
+          ) * 0.12
+
+        x.fillStyle =
+          `rgba(115,239,213,${p.a * 0.75})`
+
+      } else {
+        p.y +=
+          p.v * 0.3
+
+        x.fillStyle =
+          `rgba(90,167,255,${p.a * 0.7})`
+      }
+
+      if (
+        p.y >
+        innerHeight + 4
+      )
+        p.y = -4
+
+      if (p.y < -4)
+        p.y =
+          innerHeight + 4
+
+      if (
+        p.x >
+        innerWidth + 4
+      )
+        p.x = -4
+
+      x.beginPath()
+
+      x.arc(
+        p.x,
+        p.y,
+        p.r,
+        0,
+        Math.PI * 2
+      )
+
+      x.fill()
+    }
+
+    requestAnimationFrame(
+      draw
+    )
+  }
+
+  addEventListener(
+    "resize",
+    resize
+  )
+
+  resize()
+  draw()
+}
+
+/* =========================
+   START
+========================= */
+
+startFX()
+initProjectLanguage()
+loadProject()
       
