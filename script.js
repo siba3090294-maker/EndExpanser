@@ -70,14 +70,27 @@ async function getProjects() {
             ? "modpack"
             : "mod"
 
+        const localPages = {
+          "end expanse": "projects/end-expanse.html",
+          "aeonrealism": "projects/aeonrealism.html",
+          "expanse shaders": "projects/expanse-shaders.html",
+          "bluedition": "projects/bluedition.html"
+        }
+
         const href =
+          localPages[(p.title || "").toLowerCase()] ||
           `https://modrinth.com/${hrefType}/${p.slug || p.id}`
+
+        const target =
+          href.startsWith("projects/")
+            ? "_self"
+            : "_blank"
 
         return `
           <a
             class="project-card tilt reveal"
             href="${href}"
-            target="_blank"
+            target="${target}"
             rel="noreferrer"
           >
             <div
@@ -102,7 +115,6 @@ async function getProjects() {
             ></div>
 
             <div class="project-content">
-
               <div class="project-meta">
                 <span class="pill">
                   ${escapeHtml(type)}
@@ -128,7 +140,6 @@ async function getProjects() {
               </p>
 
               <div class="project-bottom">
-
                 <div class="stats-mini">
                   <span>
                     ↓ ${fmt(p.downloads)} downloads
@@ -140,7 +151,6 @@ async function getProjects() {
                 </div>
 
                 <span class="arrow">↗</span>
-
               </div>
             </div>
           </a>
@@ -175,28 +185,25 @@ function fallbackCards() {
       "End Expanse",
       "mod",
       "Expand the End in a quiet, vanilla-inspired style",
-      "https://modrinth.com/mod/end-expanse"
+      "projects/end-expanse.html"
     ],
-
     [
       "AeonRealism",
       "shader",
       "A cinematic realism-focused shader project",
-      "https://modrinth.com/shader/aeonrealism"
+      "projects/aeonrealism.html"
     ],
-
     [
       "Expanse Shaders",
       "shader",
       "Atmospheric visuals built for Minecraft",
-      "https://modrinth.com/user/EndExpanser"
+      "projects/expanse-shaders.html"
     ],
-
     [
       "Bluedition",
       "resource pack",
       "A blue-styled visual resource pack",
-      "https://modrinth.com/user/EndExpanser"
+      "projects/bluedition.html"
     ]
   ]
 
@@ -206,8 +213,6 @@ function fallbackCards() {
         <a
           class="project-card tilt reveal"
           href="${href}"
-          target="_blank"
-          rel="noreferrer"
         >
           <div
             class="project-bg"
@@ -227,9 +232,10 @@ function fallbackCards() {
           ></div>
 
           <div class="project-content">
-
             <div class="project-meta">
-              <span class="pill">${type}</span>
+              <span class="pill">
+                ${type}
+              </span>
             </div>
 
             <h3 class="project-title">
@@ -241,13 +247,15 @@ function fallbackCards() {
             </p>
 
             <div class="project-bottom">
-
               <div class="stats-mini">
-                <span>open on modrinth</span>
+                <span>
+                  open project
+                </span>
               </div>
 
-              <span class="arrow">↗</span>
-
+              <span class="arrow">
+                ↗
+              </span>
             </div>
           </div>
         </a>
